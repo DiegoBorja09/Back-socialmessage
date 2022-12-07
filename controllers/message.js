@@ -53,14 +53,15 @@ create:catchAsync(async (req, res, next) =>{
 
 get: catchAsync(async (req, res, next) =>{
     try {
-        const result = await message.findAll({
-            attributes: ['id','title', 'contents','iduser','createdAt']
+        const messager = await message.findAll({
+            attributes: ['id','title', 'contents','iduser','createdAt'],
+            include:[
+                {model:user}
+            ]
+            
         })
-        endpointResponse({
-            res,
-            message: 'list the user successfully',
-            body:result,
-        })
+        return res.json(messager)
+          
     } catch (error) {
         const httpError = createHttpError(
             error.statusCode,
@@ -69,6 +70,31 @@ get: catchAsync(async (req, res, next) =>{
         next(httpError)
     }
 }),
+
+getbyid:catchAsync(async (req, res, next) =>{
+
+    const { id } = req.params
+
+    try {
+        const messager = await message.findAll({
+            where: {
+                iduser: id
+            }
+            
+            
+        })
+        return res.json(messager)
+          
+    } catch (error) {
+        const httpError = createHttpError(
+            error.statusCode,
+            `[Error creating user] - [Users - create]: ${error.message} `,
+        )
+        next(httpError)
+    }
+
+}),
+
 
  update:catchAsync(async (req, res, next) => {
 
