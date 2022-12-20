@@ -16,7 +16,7 @@ const app = express()
 
 
 app.use(cors({
-    origin:["http://localhost:4200"],
+    origin:["http://localhost:4200","https://front-socialmessage.vercel.app"],
 }))
 app.use(express.json())
 
